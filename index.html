@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+        <style>
+            html{
+                background-image: linear-gradient(45deg, #f5f7fa 0%, #8895ac 100%);
+                background-attachment:fixed;
+                height:100%;
+            }
+            body{
+                font-family: 'Montserrat', sans-serif;
+            }
+
+        
+
+        </style>
+
+        <script>
+            function onSubmit(){
+
+                /* Dont forget to handle exceptions and bad user inputs*/
+
+                var x = document.getElementById("userarr").value;
+                var lck = document.getElementById("lucky").value;
+                var tx = "Your Lotto Num: "+toArr(x) + "<br>Your Lucky Pick: "+ lck;
+                x = sortArr(toArr(x));
+                var gen = genArr();
+                var genlck = Math.floor(Math.random()*18+1);
+
+                document.getElementById("yournum").innerHTML = tx; 
+                document.getElementById("sortnum").innerHTML = "Sorted Lotto Num: "+x
+                + "<br>Sorted Lucky Pick: "+ lck;
+                document.getElementById("winningnum").innerHTML = "Sorted Lotto Num: "+gen
+                + "<br> Lucky Pick: "+ genlck;
+
+                var count = 0;
+                var sharelck = false;
+                /* calc winner */
+                for(var i = 0; i < x.length; i++)
+                {
+                    for(var j = 0; j <gen.length; j++)
+                    {
+                        if(x[i] == gen[j])
+                        {
+                            count++;
+                        }
+                    }
+                }
+
+                if(genlck == lck)
+                {
+                    sharelck = true;
+                }
+
+                if(sharelck = true && count == 5)
+                {
+                    document.getElementById("payout").innerHTML = "$7,000 a WEEK for LIFE!";
+                    return false;
+                }
+                if(sharelck = false && count == 5)
+                {
+                    document.getElementById("payout").innerHTML = "$25,000 a YEAR for LIFE!";
+                    return false;
+                }
+                if(sharelck = true && count == 4)
+                {
+                    document.getElementById("payout").innerHTML = "$5,000";
+                    return false;
+                }
+                if(sharelck = false && count == 4)
+                {
+                    document.getElementById("payout").innerHTML = "$200";
+                    return false;
+                }
+                if(sharelck = true && count == 3)
+                {
+                    document.getElementById("payout").innerHTML = "$150";
+                    return false;
+                }
+                if(sharelck = false && count == 3)
+                {
+                    document.getElementById("payout").innerHTML = "$20";
+                    return false;
+                }
+                if(sharelck = true && count == 2)
+                {
+                    document.getElementById("payout").innerHTML = "$25";
+                    return false;
+                } if(sharelck = false && count == 2)
+                {
+                    document.getElementById("payout").innerHTML = "$3";
+                    return false;
+                } if(sharelck = true && count == 1)
+                {
+                    document.getElementById("payout").innerHTML = "$6";
+                    return false;
+                } if(sharelck = true && count == 0)
+                {
+                    document.getElementById("payout").innerHTML = "$4";
+                    return false;
+                }
+
+                
+
+
+
+
+
+            }
+
+                /* return text= "";*/
+            function removeEmpty(text){
+              if (text>0 && text<49)
+              {
+                  return true;
+              }
+              
+              document.getElementById("warning").innerHTML = "Please input only numbers 1-48, avoid repeats, and avoid extra spaces for accuracy";
+              return false;
+            }
+
+            function toArr(text){
+                var rt = text.split(" ");
+                
+                /*rt = rt.filter(removeEmpty);*/
+
+                for(var i=0; i<rt.length; i++)
+                {
+                    rt[i] = parseInt(rt[i])
+
+                }
+
+                rt = rt.filter(removeEmpty);
+
+                return rt;
+            }
+
+
+
+            function compNum(a, b) {
+                 return a - b;
+            }
+
+            function sortArr(arr){
+                arr.sort(compNum)
+                return arr;
+            }
+
+            function genArr(){
+                var z = [];
+                for(var i = 0; i <5; i++)
+                {
+                    z.push(Math.floor(Math.random()*48+1));
+                }
+                
+                z = sortArr(z);
+               
+               return z;
+
+
+            }
+
+            
+
+
+
+        </script>
+    </head>
+    <body>
+        <h1> 
+            Lucky Lotto Simulator
+        </h1>
+
+        <form id="lotto" onsubmit="return false">
+            Lotto Numbers <input type=‘text’ id="userarr">
+            Lucky Pick <input type=‘num’ id="lucky">
+        </form>
+        
+        <button form="lotto" onclick="onSubmit()">Submit</button>
+
+        <h2 id="payout"> </h2>
+        <h3 id="warning"> </h3>
+        <p id="yournum"></p>
+        <p id="sortnum"></p>
+        <p id="winningnum"></p>
+       
+
+
+    </body>
+
+</html>
+
